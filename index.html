@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<meta charset=UTF-8>
+<title>Datalunch</title>
+<style>
+  body {
+    font-size: 16px;
+  }
+  ul.categories {
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+    font-size: 1.5em;
+    list-style: none;
+    border: 1px solid grey;
+    width: 8em;
+  }
+    ul.categories li {
+      display: flex;
+      justify-content: space-between;
+    }
+</style>
+
+<ul class=categories>
+</ul>
+
+<template name=categories>
+    <li><a href=# data-tpl=title></a></li>
+</template>
+
+<script>
+  const getCategories = files => files
+    .filter(file => file.meta)
+    .map(file => file.meta.categorie)
+    .filter((elt, pos, arr) => arr.indexOf(elt) === pos)
+    .sort()
+
+  const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
+    .then(response => response.json())
+
+  const displayCategories = (container, categories) => {
+    categories.forEach(category => {
+      const tpl = document
+        .querySelector('template[name=categories]')
+        .cloneNode(true)
+        .content
+        .querySelector('li')
+      const tplA = tpl.querySelector('[data-tpl=title]')
+      tplA.href = '#' + category
+      tplA.append(category)
+      container.append(tpl)
+    })
+  }
+
+  importFiles().then(json => {
+    const container = document.querySelector('.categories')
+    const categories = getCategories(json.body)
+    displayCategories(container, categories)
+  })
+</script>
