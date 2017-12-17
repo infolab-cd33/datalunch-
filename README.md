@@ -7,3 +7,9 @@ Que cela soit pour de la visualisation de ces données, pour leur traitement, le
 Nous nous référons à des logiciels libres et autant que faire se peut à des normes internationales.
 
 Quelques recettes de cuisine avec les données -> .
+
+## Liste des fonctionnalités
+
+- Consulter les catégories
+// - Consulter le résumé des fiches disponibles pour une catégorie
+// - Consulter une fiche
