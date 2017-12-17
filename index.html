@@ -5,7 +5,7 @@
   body {
     font-size: 16px;
   }
-  ul {
+  ul.categories {
     display: flex;
     flex-direction: column;
     padding: .5em;
@@ -14,17 +14,45 @@
     border: 1px solid grey;
     width: 8em;
   }
-  li {
-    display: flex;
-    justify-content: space-between;
-  }
-
+    ul.categories li {
+      display: flex;
+      justify-content: space-between;
+    }
 </style>
 
-<ul>
-  <li>Train<span>5</span></li>
-  <li>Bateau<span>5</span></li>
-  <li>Voilier<span>5</span></li>
-  <li>Bus<span>5</span></li>
-  <li>Moto<span>5</span></li>
+<ul class=categories>
 </ul>
+
+<template name=categories>
+    <li><a href=#train data-tpl=title></a><span data-tpl=count></span></li>
+</template>
+
+<script>
+  const getCategories = files => files
+    .filter(file => file.meta)
+    .map(file => file.meta.categorie)
+    .filter((elt, pos, arr) => arr.indexOf(elt) === pos)
+    .sort()
+
+  const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
+    .then(response => response.json())
+    .then(json => console.log(getCategories(json.body)))
+
+
+  const displayCategories = (container, categories) => {
+    categories.forEach(category => {
+      const tpl = document
+        .querySelector('template[name=categories]')
+        .cloneNode(true)
+        .content
+        .querySelector('li')
+      tpl.querySelector('[data-tpl=title]').append(category.title)
+      tpl.querySelector('[data-tpl=count]').append(category.count)
+      container.append(tpl)
+    })
+  }
+
+  const categories = [{title: 'Train', count:4}, {title: 'Bus', count: 25}]
+  const container = document.querySelector('.categories')
+  displayCategories(container, categories)
+</script>
