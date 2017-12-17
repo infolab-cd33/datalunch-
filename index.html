@@ -24,7 +24,7 @@
 </ul>
 
 <template name=categories>
-    <li><a href=#train data-tpl=title></a><span data-tpl=count></span></li>
+    <li><a href=# data-tpl=title></a></li>
 </template>
 
 <script>
@@ -44,8 +44,9 @@
         .cloneNode(true)
         .content
         .querySelector('li')
-      tpl.querySelector('[data-tpl=title]').append(category)
-      tpl.querySelector('[data-tpl=count]').append('23')
+      const tplA = tpl.querySelector('[data-tpl=title]')
+      tplA.href = '#' + category
+      tplA.append(category)
       container.append(tpl)
     })
   }
