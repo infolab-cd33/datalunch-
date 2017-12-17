@@ -36,8 +36,6 @@
 
   const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
     .then(response => response.json())
-    .then(json => console.log(getCategories(json.body)))
-
 
   const displayCategories = (container, categories) => {
     categories.forEach(category => {
@@ -46,13 +44,15 @@
         .cloneNode(true)
         .content
         .querySelector('li')
-      tpl.querySelector('[data-tpl=title]').append(category.title)
-      tpl.querySelector('[data-tpl=count]').append(category.count)
+      tpl.querySelector('[data-tpl=title]').append(category)
+      tpl.querySelector('[data-tpl=count]').append('23')
       container.append(tpl)
     })
   }
 
-  const categories = [{title: 'Train', count:4}, {title: 'Bus', count: 25}]
-  const container = document.querySelector('.categories')
-  displayCategories(container, categories)
+  importFiles().then(json => {
+    const container = document.querySelector('.categories')
+    const categories = getCategories(json.body)
+    displayCategories(container, categories)
+  })
 </script>
