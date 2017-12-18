@@ -13,9 +13,11 @@
     display: flex;
     flex-direction: column;
     padding: .5em;
-    font-size: 1.5em;
     list-style: none;
     border: 1px solid grey;
+  }
+  ul.categories{
+    font-size: 1.5em;
     width: 8em;
   }
   ul.fiches{
@@ -43,40 +45,43 @@
     .map(file => file.meta.categorie)
     .filter((elt, pos, arr) => arr.indexOf(elt) === pos)
     .sort()
+
   const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
     .then(response => response.json())
+
+  const getTplLi = tplName =>
+    document
+      .querySelector(`template[name=${tplName}]`)
+      .cloneNode(true)
+      .content
+      .querySelector('li')
+
   const displayCategories = (container, categories) => {
     categories.forEach(category => {
-      const tpl = document
-        .querySelector('template[name=categories]')
-        .cloneNode(true)
-        .content
-        .querySelector('li')
+      const tpl = getTplLi('categories')
       const tplTitle = tpl.querySelector('[data-cat=title]')
       tplTitle.href = '#' + category
       tplTitle.append(category)
       container.append(tpl)
     })
   }
+
   const displayFiles = (container, files) => {
     files.forEach(file => {
-      const tpl = document
-        .querySelector('template[name=fiches]')
-        .cloneNode(true)
-        .content
-        .querySelector('li')
+      const tpl = getTplLi('fiches')
       const tplTitle = tpl.querySelector('[data-fiche=title]')
-      console.log(file)
-      tplTitle.href = file.link
+      tplTitle.href = file.url
       tplTitle.append(file.meta.title)
       container.append(tpl)
     })
   }
+
   importFiles().then(json => {
     const container = document.querySelector('.categories')
     const categories = getCategories(json.body)
     displayCategories(container, categories)
   })
+
   importFiles().then(json => {
     const container = document.querySelector('.fiches')
     displayFiles(container, json.body)
