@@ -40,10 +40,19 @@
 </template>
 
 <script>
+  const onHashChange = evt => importFiles()
+    .then(json => {
+      const container = document.querySelector('.fiches')
+      const hash = evt.newURL.substring(evt.newURL.indexOf('#')+1, evt.newURL.length)
+      displayFilesByCategorie(container, json.body, hash)
+    })
+
+  window.addEventListener("hashchange", onHashChange)
+
   const getCategories = files => files
-    .filter(file => file.meta)
-    .map(file => file.meta.categorie)
-    .filter((elt, pos, arr) => arr.indexOf(elt) === pos)
+    .filter(file => file.meta) //if file a des meta
+    .map(file => file.meta.categorie) // renvoie la categorie
+    .filter((elt, pos, arr) => arr.indexOf(elt) === pos) // supprime les doublons en testant la position des éléments
     .sort()
 
   const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
@@ -66,14 +75,18 @@
     })
   }
 
-  const displayFiles = (container, files) => {
-    files.forEach(file => {
-      const tpl = getTplLi('fiches')
-      const tplTitle = tpl.querySelector('[data-fiche=title]')
-      tplTitle.href = file.url
-      tplTitle.append(file.meta.title)
-      container.append(tpl)
-    })
+  const displayFilesByCategorie = (container, files, categorie) => {
+    container.innerHTML = ''
+    files
+      .filter(file => file.meta)
+      .filter(file => file.meta.categorie === categorie)
+      .forEach(file => {
+        const tpl = getTplLi('fiches')
+        const tplTitle = tpl.querySelector('[data-fiche=title]')
+        tplTitle.href = file.url
+        tplTitle.append(file.meta.title)
+        container.append(tpl)
+      })
   }
 
   importFiles().then(json => {
@@ -82,8 +95,5 @@
     displayCategories(container, categories)
   })
 
-  importFiles().then(json => {
-    const container = document.querySelector('.fiches')
-    displayFiles(container, json.body)
-  })
+
 </script>
