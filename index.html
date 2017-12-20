@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset=UTF-8>
 <title>Datalunch</title>
+<script src="https://use.fontawesome.com/58d67c2918.js"></script>
 <style>
   body {
     font-size: 16px;
@@ -9,35 +10,67 @@
     display: flex;
   }
   ul.categories,
-  ul.fiches {
+  div.fiches {
     display: flex;
-    flex-direction: column;
     padding: .5em;
     list-style: none;
-    border: 1px solid grey;
   }
   ul.categories{
     font-size: 1.5em;
     width: 8em;
+    flex-direction: column;
+    border: 1px solid grey;
   }
-  ul.fiches{
-    width: 20em;
-    margin: 0 2em;
+  div.fiches{
+    flex-wrap: wrap;
   }
+  article {
+    border: 1px solid grey;
+    margin: .5em;
+    width: 40%;
+    height: 10em;
+    padding: .5em;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+i, a{
+  display: block;
+  width: 50%;
+}
 </style>
 
 <section class=container>
   <ul class=categories></ul>
-  <ul class=fiches></ul>
+  <div class=fiches></div>
 </section>
-
+<!--
+<section>
+  <h1>meta.title: Le titre de la fiche</h1>
+  <h2>meta.author</h2>
+  title: Présentation de datacat
+  author: Pascal Romain
+  licence: CC-By-SA
+  description: Présenter le fonctionnement de l'outil de cataloguage de datalocale.
+  image_url: https://www.datalocale.fr/base/images/logo-datalocale.jpg
+  link: https://github.com/infolab-cd33/datalunch/datacat-bases.md
+  categorie: outillage
+  niveau: intermédiaire
+  date: 11/11/2016
+</section>
+-->
 <template name=categories>
-    <li><a href=# data-cat=title></a></li>
+    <li data-tpl=item><a href=# data-cat=title></a></li>
 </template>
 
 <template name=fiches>
-    <li><a href=# data-fiche=title></a></li>
+    <article data-tpl=item>
+      <a href=# data-fiche=title></a>
+      <i class=fa data-fiche=niveau></i>
+      <p data-fiche=description></p>
+    </article>
+
 </template>
+
 
 <script>
   const onHashChange = evt => importFiles()
@@ -55,19 +88,20 @@
     .filter((elt, pos, arr) => arr.indexOf(elt) === pos) // supprime les doublons en testant la position des éléments
     .sort()
 
-  const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
+//prod  const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
+//dev
+const importFiles = () => fetch('./fiches.json')
     .then(response => response.json())
-
-  const getTplLi = tplName =>
+  const getTplItem = tplName =>
     document
       .querySelector(`template[name=${tplName}]`)
       .cloneNode(true)
       .content
-      .querySelector('li')
+      .querySelector('[data-tpl=item]')
 
   const displayCategories = (container, categories) => {
     categories.forEach(category => {
-      const tpl = getTplLi('categories')
+      const tpl = getTplItem('categories')
       const tplTitle = tpl.querySelector('[data-cat=title]')
       tplTitle.href = '#' + category
       tplTitle.append(category)
@@ -75,23 +109,37 @@
     })
   }
 
+
+const getIcon = level => {
+  const levels = {débutant: 'fa-thermometer-empty', intermédiaire: 'fa-thermometer-quarter',avancé: 'fa-thermometer-three-quarters', expert: 'fa-thermometer-full'}
+  return levels[level]
+}
+
+
+
   const displayFilesByCategorie = (container, files, categorie) => {
     container.innerHTML = ''
     files
       .filter(file => file.meta)
       .filter(file => file.meta.categorie === categorie)
       .forEach(file => {
-        const tpl = getTplLi('fiches')
+        const tpl = getTplItem('fiches')
         const tplTitle = tpl.querySelector('[data-fiche=title]')
+        const tplDesc = tpl.querySelector('[data-fiche=description]')
+        const tplNiveau = tpl.querySelector('[data-fiche=niveau]')
         tplTitle.href = file.url
         tplTitle.append(file.meta.title)
+        tplDesc.append(file.meta.description)
+        tplNiveau.classList.add(getIcon(file.meta.niveau))
         container.append(tpl)
       })
   }
 
   importFiles().then(json => {
     const container = document.querySelector('.categories')
+    console.log(json)
     const categories = getCategories(json.body)
+
     displayCategories(container, categories)
   })
 
