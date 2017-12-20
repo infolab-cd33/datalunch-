@@ -1,59 +1,33 @@
 <!DOCTYPE html>
 <meta charset=UTF-8>
 <title>Datalunch</title>
-<style>
-  body {
-    font-size: 16px;
-  }
-  ul.categories {
-    display: flex;
-    flex-direction: column;
-    padding: .5em;
-    font-size: 1.5em;
-    list-style: none;
-    border: 1px solid grey;
-    width: 8em;
-  }
-    ul.categories li {
-      display: flex;
-      justify-content: space-between;
-    }
-</style>
-
-<ul class=categories>
-</ul>
-
-<template name=categories>
-    <li><a href=# data-tpl=title></a></li>
-</template>
-
+<link rel=stylesheet href=./style.css>
+<script src=https://use.fontawesome.com/58d67c2918.js></script>
+<script src=./sections.js></script>
+<script src=./main.js></script>
 <script>
-  const getCategories = files => files
-    .filter(file => file.meta)
-    .map(file => file.meta.categorie)
-    .filter((elt, pos, arr) => arr.indexOf(elt) === pos)
-    .sort()
+  window.addEventListener('hashchange', Hash.onChange)
 
-  const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
-    .then(response => response.json())
-
-  const displayCategories = (container, categories) => {
-    categories.forEach(category => {
-      const tpl = document
-        .querySelector('template[name=categories]')
-        .cloneNode(true)
-        .content
-        .querySelector('li')
-      const tplA = tpl.querySelector('[data-tpl=title]')
-      tplA.href = '#' + category
-      tplA.append(category)
-      container.append(tpl)
-    })
-  }
-
-  importFiles().then(json => {
-    const container = document.querySelector('.categories')
-    const categories = getCategories(json.body)
-    displayCategories(container, categories)
+  Files.import().then(json => {
+    Categories.display(Categories.getByFiles(json.body))
+    Articles.display(json.body)
   })
 </script>
+
+
+<section class=container>
+  <ul class=categories></ul>
+  <div class=fiches></div>
+</section>
+
+<template name=categories>
+    <li data-tpl=element><a href=# data-cat=titre></a></li>
+</template>
+
+<template name=fiches>
+    <article data-tpl=element>
+      <h2 data-fiche=titre><i class=fa data-fiche=niveau></i></h2>
+      <p data-fiche=description></p>
+      <a href=# data-fiche=plus>En savoir plus ...</a>
+    </article>
+</template>

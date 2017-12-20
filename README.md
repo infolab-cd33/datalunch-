@@ -11,5 +11,5 @@ Quelques recettes de cuisine avec les données -> .
 ## Liste des fonctionnalités
 
 - Consulter les catégories
-// - Consulter le résumé des fiches disponibles pour une catégorie
+- Consulter le résumé des fiches disponibles pour une catégorie
 // - Consulter une fiche
