@@ -7,6 +7,7 @@ const Hash = {
     })
 }
 
+
 const Tpl = {
   getElement: tplName =>
     document
