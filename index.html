@@ -26,38 +26,43 @@
   }
   article {
     border: 1px solid grey;
+    background-color: grey;
     margin: .5em;
     width: 40%;
     height: 10em;
     padding: .5em;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 i, a{
   display: block;
   width: 50%;
 }
+.detailFiche {
+  border: 1px solid grey;
+  margin: .5em;
+  width: 40%;
+  height: 30em;
+  padding: .5em;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 </style>
 
 <section class=container>
   <ul class=categories></ul>
   <div class=fiches></div>
 </section>
-<!--
-<section>
-  <h1>meta.title: Le titre de la fiche</h1>
-  <h2>meta.author</h2>
-  title: Présentation de datacat
-  author: Pascal Romain
-  licence: CC-By-SA
-  description: Présenter le fonctionnement de l'outil de cataloguage de datalocale.
-  image_url: https://www.datalocale.fr/base/images/logo-datalocale.jpg
-  link: https://github.com/infolab-cd33/datalunch/datacat-bases.md
-  categorie: outillage
-  niveau: intermédiaire
-  date: 11/11/2016
+<section class=detailFiche>
+  <h1 class=titleFiche>meta.title: Le titre de la fiche</h1>
+  <h2 class=authorFiche>meta.author</h2>
+  <i class=fab fa-creative-commons>licence: CC-By-SA</i>
+  <span class=dateFiche>date: 11/11/2016</span>
+  <div class=thumbFiche><img src="https://www.datalocale.fr/base/images/logo-datalocale.jpg"></div>
+  <div class=ficheBody>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed provident delectus repellat reprehenderit libero quia aliquam quis voluptates, qui illum dolorum, beatae ipsum minus iusto maiores dolore earum at numquam?</div>
 </section>
--->
+
 <template name=categories>
     <li data-tpl=item><a href=# data-cat=title></a></li>
 </template>
