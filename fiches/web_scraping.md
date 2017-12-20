@@ -7,6 +7,7 @@ link: https://github.com/infolab-cd33/datalunch/web_scraping.md
 categorie: manipulation
 niveau: débutant
 date: 02/12/2015
+licence: CC-By-SA
 ---
 
 ## Principes - Ce que nous allons faire
