@@ -1,152 +1,33 @@
 <!DOCTYPE html>
 <meta charset=UTF-8>
 <title>Datalunch</title>
-<script src="https://use.fontawesome.com/58d67c2918.js"></script>
-<style>
-  body {
-    font-size: 16px;
-  }
-  section{
-    display: flex;
-  }
-  ul.categories,
-  div.fiches {
-    display: flex;
-    padding: .5em;
-    list-style: none;
-  }
-  ul.categories{
-    font-size: 1.5em;
-    width: 8em;
-    flex-direction: column;
-    border: 1px solid grey;
-  }
-  div.fiches{
-    flex-wrap: wrap;
-  }
-  article {
-    border: 1px solid grey;
-    background-color: grey;
-    margin: .5em;
-    width: 40%;
-    height: 10em;
-    padding: .5em;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-i, a{
-  display: block;
-  width: 50%;
-}
-.detailFiche {
-  border: 1px solid grey;
-  margin: .5em;
-  width: 40%;
-  height: 30em;
-  padding: .5em;
-  flex-direction: column;
-  justify-content: space-around;
-}
+<link rel=stylesheet href=./style.css>
+<script src=https://use.fontawesome.com/58d67c2918.js></script>
+<script src=./sections.js></script>
+<script src=./main.js></script>
+<script>
+  window.addEventListener('hashchange', Hash.onChange)
 
-</style>
+  Files.import().then(json => {
+    Categories.display(Categories.getByFiles(json.body))
+    Articles.display(json.body)
+  })
+</script>
+
 
 <section class=container>
   <ul class=categories></ul>
   <div class=fiches></div>
 </section>
-<section class=detailFiche>
-  <h1 class=titleFiche>meta.title: Le titre de la fiche</h1>
-  <h2 class=authorFiche>meta.author</h2>
-  <i class=fab fa-creative-commons>licence: CC-By-SA</i>
-  <span class=dateFiche>date: 11/11/2016</span>
-  <div class=thumbFiche><img src="https://www.datalocale.fr/base/images/logo-datalocale.jpg"></div>
-  <div class=ficheBody>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed provident delectus repellat reprehenderit libero quia aliquam quis voluptates, qui illum dolorum, beatae ipsum minus iusto maiores dolore earum at numquam?</div>
-</section>
 
 <template name=categories>
-    <li data-tpl=item><a href=# data-cat=title></a></li>
+    <li data-tpl=element><a href=# data-cat=titre></a></li>
 </template>
 
 <template name=fiches>
-    <article data-tpl=item>
-      <a href=# data-fiche=title></a>
-      <i class=fa data-fiche=niveau></i>
+    <article data-tpl=element>
+      <h2 data-fiche=titre><i class=fa data-fiche=niveau></i></h2>
       <p data-fiche=description></p>
+      <a href=# data-fiche=plus>En savoir plus ...</a>
     </article>
-
 </template>
-
-
-<script>
-  const onHashChange = evt => importFiles()
-    .then(json => {
-      const container = document.querySelector('.fiches')
-      const hash = evt.newURL.substring(evt.newURL.indexOf('#')+1, evt.newURL.length)
-      displayFilesByCategorie(container, json.body, hash)
-    })
-
-  window.addEventListener("hashchange", onHashChange)
-
-  const getCategories = files => files
-    .filter(file => file.meta) //if file a des meta
-    .map(file => file.meta.categorie) // renvoie la categorie
-    .filter((elt, pos, arr) => arr.indexOf(elt) === pos) // supprime les doublons en testant la position des éléments
-    .sort()
-
-//prod  const importFiles = () => fetch('https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches')
-//dev
-const importFiles = () => fetch('./fiches.json')
-    .then(response => response.json())
-  const getTplItem = tplName =>
-    document
-      .querySelector(`template[name=${tplName}]`)
-      .cloneNode(true)
-      .content
-      .querySelector('[data-tpl=item]')
-
-  const displayCategories = (container, categories) => {
-    categories.forEach(category => {
-      const tpl = getTplItem('categories')
-      const tplTitle = tpl.querySelector('[data-cat=title]')
-      tplTitle.href = '#' + category
-      tplTitle.append(category)
-      container.append(tpl)
-    })
-  }
-
-
-const getIcon = level => {
-  const levels = {débutant: 'fa-thermometer-empty', intermédiaire: 'fa-thermometer-quarter',avancé: 'fa-thermometer-three-quarters', expert: 'fa-thermometer-full'}
-  return levels[level]
-}
-
-
-
-  const displayFilesByCategorie = (container, files, categorie) => {
-    container.innerHTML = ''
-    files
-      .filter(file => file.meta)
-      .filter(file => file.meta.categorie === categorie)
-      .forEach(file => {
-        const tpl = getTplItem('fiches')
-        const tplTitle = tpl.querySelector('[data-fiche=title]')
-        const tplDesc = tpl.querySelector('[data-fiche=description]')
-        const tplNiveau = tpl.querySelector('[data-fiche=niveau]')
-        tplTitle.href = file.url
-        tplTitle.append(file.meta.title)
-        tplDesc.append(file.meta.description)
-        tplNiveau.classList.add(getIcon(file.meta.niveau))
-        container.append(tpl)
-      })
-  }
-
-  importFiles().then(json => {
-    const container = document.querySelector('.categories')
-    console.log(json)
-    const categories = getCategories(json.body)
-
-    displayCategories(container, categories)
-  })
-
-
-</script>
