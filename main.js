@@ -19,8 +19,8 @@ const Tpl = {
 
 const Files = {
   import: () => {
-     const json = 'https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches'
-    //const json = './fiches.json'
+    // const json = 'https://api.daktary.com/infolab-cd33/datalunch-/tree/master/fiches'
+    const json = './fiches.json'
     return fetch(json)
       .then(response => response.json())
   }

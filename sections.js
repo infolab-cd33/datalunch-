@@ -15,9 +15,9 @@ const Categories = {
     categories.forEach(category => {
       const tpl = Tpl.getElement('categories')
       const tplTitle = tpl.querySelector('[data-cat=titre]')
-      tplTitle.href = '#category/' + category
+      tplTitle.href = '#categorie/' + category
       tplTitle.append(category)
-      if (category === Hash.get().replace('category/','')) {
+      if (category === Hash.get().replace('categorie/','')) {
         tplTitle.classList.add('selected')
       }
       container.append(tpl)
@@ -36,7 +36,7 @@ const Articles = {
   },
   display: files => {
     const container = document.querySelector('.fiches')
-    const category = Hash.get().replace('category/','')
+    const category = Hash.get().replace('categorie/','')
     Articles.displayByCategory(container, files, category)
   },
   displayByCategory: (container, files, categorie) => {
@@ -54,7 +54,8 @@ const Articles = {
         tplDesc.append(file.meta.description)
         tplLevel.classList.add(Articles.getIcon(file.meta.niveau))
         tplLevel.title = file.meta.niveau
-        tplMore.href = file.url
+        tplMore.href = `#fiche/${file.name}`
+
         container.append(tpl)
     })
   }
