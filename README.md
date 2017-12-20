@@ -12,4 +12,4 @@ Quelques recettes de cuisine avec les données -> .
 
 - Consulter les catégories
 - Consulter le résumé des fiches disponibles pour une catégorie
-// - Consulter une fiche
+- Consulter une fiche
