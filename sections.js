@@ -36,6 +36,7 @@ const Articles = {
   },
   display: files => {
     const container = document.querySelector('.fiches')
+    container.innerHTML = ''
     if (Hash.getType() === 'categorie') {
       const category = Hash.get()
       Articles.displayByCategory(container, files, category)
@@ -48,7 +49,6 @@ const Articles = {
     }
   },
   displayByCategory: (container, files, categorie) => {
-    container.innerHTML = ''
     files
       .filter(file => file.meta)
       .filter(file => file.meta.categorie === categorie)
