@@ -25,9 +25,20 @@
 </template>
 
 <template name=fiches>
-    <article data-tpl=element>
+    <article class=resume data-tpl=element>
       <h2 data-fiche=titre><i class=fa data-fiche=niveau></i></h2>
       <p data-fiche=description></p>
       <a href=# data-fiche=plus>En savoir plus ...</a>
     </article>
+</template>
+
+<template name=fiche>
+  <article class=detailFiche>
+    <h1 class=titleFiche>meta.title: Le titre de la fiche</h1>
+    <h2 class=authorFiche>meta.author</h2>
+    <i class="fa fa-creative-commons" data-fiche=licence></i>
+    <span class=dateFiche>date: 11/11/2016</span>
+    <div class=thumbFiche><img src=https://www.datalocale.fr/base/images/logo-datalocale.jpg></div>
+    <div class=ficheBody data-fiche=content></div>
+  </article>
 </template>

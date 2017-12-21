@@ -40,14 +40,24 @@ div.fiches {
 }
 
 article {
+  border: 1px solid grey;
+  padding: .5em;
+  margin: 1em;
+}
+
+article.detailFiche {
+  width: 80%;
+  margin: .5em;
+  padding: .5em;
+
+}
+
+article.resume {
+  width: 40%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid grey;
   background-color: #ccc;
-  margin: 1em;
-  width: 40%;
-  padding: .5em;
 }
 
 article h2 {
