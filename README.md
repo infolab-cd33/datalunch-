@@ -12,4 +12,5 @@ Quelques recettes de cuisine avec les données -> .
 
 - Consulter les catégories
 - Consulter le résumé des fiches disponibles pour une catégorie
+- router les urls
 - Consulter une fiche
