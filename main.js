@@ -1,5 +1,18 @@
 const Hash = {
-  get: () => document.location.hash.substring(1),
+  get: () => {
+    const hash = document.location.hash.substring(1) // hash without #
+    if (hash) {
+      return hash.match(/.*\/(.*)$/)[1] // Enlever la racine du hash ex. categorie/outillage => outillage
+    }
+    return undefined
+  },
+  getType: () => {
+    const hash = document.location.hash.substring(1) // hash without #
+    if (hash) {
+      return hash.match(/^(.*)\//)[1] // Ne garde que la racine du hash ex. categorie/outillage => categorie
+    }
+    return undefined
+  },
   onChange: () => Files.import()
     .then(json => {
       Articles.display(json.body)

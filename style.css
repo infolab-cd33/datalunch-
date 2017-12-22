@@ -28,7 +28,7 @@ ul.categories a {
   display: block;
   padding: .5em;
   width: 100%;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 ul.categories a.selected {
@@ -40,14 +40,35 @@ div.fiches {
 }
 
 article {
+  border: 1px solid grey;
+  padding: .5em;
+  margin: 1em;
+}
+
+article.detailFiche {
+  width: 80%;
+  margin: .5em;
+  padding: .5em;
+
+}
+article.detailFiche i {
+  margin: .5em;
+  padding: .5em;
+}
+.dateFiche {
+  display: block;
+}
+
+article.resume {
+  width: 40%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid grey;
   background-color: #ccc;
-  margin: 1em;
-  width: 40%;
-  padding: .5em;
+}
+article.resume h2 img {
+  float = right;
+  padding-left: 2em;
 }
 
 article h2 {

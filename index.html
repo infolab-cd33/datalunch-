@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <meta charset=UTF-8>
 <title>Datalunch</title>
 <link rel=stylesheet href=./style.css>
@@ -14,7 +14,6 @@
   })
 </script>
 
-
 <section class=container>
   <ul class=categories></ul>
   <div class=fiches></div>
@@ -25,9 +24,19 @@
 </template>
 
 <template name=fiches>
-    <article data-tpl=element>
+    <article class=resume data-tpl=element>
       <h2 data-fiche=titre><i class=fa data-fiche=niveau></i></h2>
       <p data-fiche=description></p>
       <a href=# data-fiche=plus>En savoir plus ...</a>
     </article>
+</template>
+
+<template name=fiche>
+  <article class=detailFiche>
+    <h1 class=titleFiche><img src=></h1>
+    <h2 class=authorFiche></h2>
+    <i class="fa fa-creative-commons" data-fiche=licence></i>
+    <span class=dateFiche></span>
+    <div class=ficheBody data-fiche=content></div>
+  </article>
 </template>

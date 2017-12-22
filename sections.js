@@ -17,7 +17,7 @@ const Categories = {
       const tplTitle = tpl.querySelector('[data-cat=titre]')
       tplTitle.href = '#categorie/' + category
       tplTitle.append(category)
-      if (category === Hash.get().replace('categorie/','')) {
+      if (category === Hash.get()) {
         tplTitle.classList.add('selected')
       }
       container.append(tpl)
@@ -36,11 +36,23 @@ const Articles = {
   },
   display: files => {
     const container = document.querySelector('.fiches')
-    const category = Hash.get().replace('categorie/','')
-    Articles.displayByCategory(container, files, category)
+    container.innerHTML = ''
+    if (Hash.getType() === 'categorie') {
+      const category = Hash.get()
+      Articles.displayByCategory(container, files, category)
+    } else if (Hash.getType() === 'fiche') {
+      const file = files.filter(file => file.name === Hash.get())[0]
+      const tpl = document.querySelector('template[name=fiche]').cloneNode(true).content
+      tpl.querySelector('[data-fiche=licence]').append(file.meta.licence)
+      tpl.querySelector('[class=titleFiche]').append(file.meta.title)
+      tpl.querySelector('[class=authorFiche]').append(file.meta.author)
+      tpl.querySelector('[class=dateFiche]').append(file.meta.date)
+      tpl.querySelector('img').src = file.meta.image_url
+      tpl.querySelector('[data-fiche=content]').innerHTML = file.body
+      container.append(tpl)
+    }
   },
   displayByCategory: (container, files, categorie) => {
-    container.innerHTML = ''
     files
       .filter(file => file.meta)
       .filter(file => file.meta.categorie === categorie)
