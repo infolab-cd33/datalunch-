@@ -28,7 +28,7 @@ ul.categories a {
   display: block;
   padding: .5em;
   width: 100%;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 ul.categories a.selected {
@@ -51,6 +51,13 @@ article.detailFiche {
   padding: .5em;
 
 }
+article.detailFiche i {
+  margin: .5em;
+  padding: .5em;
+}
+.dateFiche {
+  display: block;
+}
 
 article.resume {
   width: 40%;
@@ -58,6 +65,10 @@ article.resume {
   flex-direction: column;
   justify-content: space-between;
   background-color: #ccc;
+}
+article.resume h2 img {
+  float = right;
+  padding-left: 2em;
 }
 
 article h2 {
