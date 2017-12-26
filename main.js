@@ -1,4 +1,4 @@
-const Hash = {
+  const Hash = {
   get: () => {
     const hash = document.location.hash.substring(1) // hash without #
     if (hash) {
