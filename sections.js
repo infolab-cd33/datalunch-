@@ -40,7 +40,7 @@ const Articles = {
     if (Hash.getType() === 'categorie') {
       const category = Hash.get()
       Articles.displayByCategory(container, files, category)
-    } else if (Hash.getType() === 'fiche') {
+    } else if (Hash.getType() === 'lecture') {
       const file = files.filter(file => file.name === Hash.get())[0]
       const tpl = document.querySelector('template[name=fiche]').cloneNode(true).content
       tpl.querySelector('[data-fiche=licence]').append(file.meta.licence)
@@ -50,6 +50,9 @@ const Articles = {
       tpl.querySelector('img').src = file.meta.image_url
       tpl.querySelector('[data-fiche=content]').innerHTML = file.body
       container.append(tpl)
+    }
+    else{
+      document.location.hash = '#accueil.md'
     }
   },
   displayByCategory: (container, files, categorie) => {
@@ -66,7 +69,7 @@ const Articles = {
         tplDesc.append(file.meta.description)
         tplLevel.classList.add(Articles.getIcon(file.meta.niveau))
         tplLevel.title = file.meta.niveau
-        tplMore.href = `#fiche/${file.name}`
+        tplMore.href = `#lecture/fiche/${file.name}`
 
         container.append(tpl)
     })
