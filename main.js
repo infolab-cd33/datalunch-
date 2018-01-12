@@ -1,4 +1,4 @@
-  const Hash = {
+const Hash = {
   get: () => {
     const hash = document.location.hash.substring(1) // hash without #
     if (hash) {
@@ -13,7 +13,7 @@
     }
     return undefined
   },
-  onChange: () => Files.import()
+  onChange: () => filesImport
     .then(json => {
       Articles.display(json.body)
       Categories.display(Categories.get())
@@ -34,6 +34,11 @@ const Files = {
   import: () => {
      const json = 'https://api.daktary.com/infolab-cd33/datalunch/tree/master/fiches'
     //const json = './fiches.json'
+    return fetch(json)
+      .then(response => response.json())
+  },
+  getHome: () => {
+    const json = 'https://api.daktary.com/infolab-cd33/datalunch/blob/master/accueil.md'
     return fetch(json)
       .then(response => response.json())
   }

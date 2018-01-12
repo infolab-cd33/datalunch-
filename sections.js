@@ -26,6 +26,16 @@ const Categories = {
 }
 
 const Articles = {
+  _displayFile: (file, container) => {
+    const tpl = document.querySelector('template[name=fiche]').cloneNode(true).content
+    tpl.querySelector('[data-fiche=licence]').append(file.meta.licence)
+    tpl.querySelector('[class=titleFiche]').append(file.meta.title)
+    tpl.querySelector('[class=authorFiche]').append(file.meta.author)
+    tpl.querySelector('[class=dateFiche]').append(file.meta.date)
+    tpl.querySelector('img').src = file.meta.image_url
+    tpl.querySelector('[data-fiche=content]').innerHTML = file.body
+    container.append(tpl)
+  },
   getIcon: level => {
     return {
       débutant: 'fa-thermometer-empty',
@@ -37,19 +47,18 @@ const Articles = {
   display: files => {
     const container = document.querySelector('.fiches')
     container.innerHTML = ''
-    if (Hash.getType() === 'categorie') {
-      const category = Hash.get()
-      Articles.displayByCategory(container, files, category)
-    } else if (Hash.getType() === 'fiche') {
-      const file = files.filter(file => file.name === Hash.get())[0]
-      const tpl = document.querySelector('template[name=fiche]').cloneNode(true).content
-      tpl.querySelector('[data-fiche=licence]').append(file.meta.licence)
-      tpl.querySelector('[class=titleFiche]').append(file.meta.title)
-      tpl.querySelector('[class=authorFiche]').append(file.meta.author)
-      tpl.querySelector('[class=dateFiche]').append(file.meta.date)
-      tpl.querySelector('img').src = file.meta.image_url
-      tpl.querySelector('[data-fiche=content]').innerHTML = file.body
-      container.append(tpl)
+    switch (Hash.getType()) {
+      case 'categorie':
+        const category = Hash.get()
+        Articles.displayByCategory(container, files, category)
+        break
+      case 'fiche':
+        const file = files.filter(file => file.name === Hash.get())[0]
+        Articles._displayFile(file, container)
+        break
+      default:
+        Files.getHome().then(file => Articles._displayFile(file, container))
+        break
     }
   },
   displayByCategory: (container, files, categorie) => {

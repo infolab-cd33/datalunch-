@@ -7,9 +7,10 @@
 <script src=./sections.js></script>
 <script src=./main.js></script>
 <script>
+  const filesImport = Files.import()
+  const home = Files.getHome()
   window.addEventListener('hashchange', Hash.onChange)
-
-  Files.import().then(json => {
+  filesImport.then(json => {
     Categories.display(Categories.getByFiles(json.body))
     Articles.display(json.body)
   })
