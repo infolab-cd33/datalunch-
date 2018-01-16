@@ -1,11 +1,10 @@
-@link url(https://fonts.googleapis.com/css?family=Marte+Sans);
 @link url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic);
 @link url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
 
 
 h1, h2, h3 {
-  font-family: 'Martel Sans';
-  font-weight: small;
+  font-family: 'Lato';
+  font-weight: 700
 }
 
 body {
@@ -15,6 +14,11 @@ body {
 
 section {
   display: flex;
+}
+
+span {
+  margin: 1em;
+  padding: 1em;
 }
 
 ul.categories,
